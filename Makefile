@@ -21,3 +21,9 @@ list_service_accounts:
 
 list_projects:
 	gcloud projects list
+
+activate_virtual_env:
+	pyenv local to-infinity-and-beyond
+
+list_virtual_envs:
+	pyenv virtualenvs
