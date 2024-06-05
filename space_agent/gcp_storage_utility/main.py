@@ -38,7 +38,7 @@ def download_file_from_bucket(
     return rc, message
 
 def test01():
-    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond-data/data/images_cropped'
+    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped'
     object_ID = '1237646797600326400'
     image_path = f'{images_location}/{object_ID}.jpeg'
     bucket_name = 'to-infinity-and-beyond'
@@ -54,7 +54,7 @@ def test01():
     print(message)
 
 def test02():
-    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond-data/data/images_cropped'
+    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped'
     object_ID = '1237646797600326400'
     image_path = f'{images_location}/{object_ID}_downloaded.jpeg'
     bucket_name = 'to-infinity-and-beyond'
@@ -73,4 +73,4 @@ if __name__ == '__main__':
     images_location = '../../To-infinity-and-beyond-data/data/images_cropped'
     object_ID = '1237646797600326400'
     image_path = f'{images_location}/{object_ID}.jpeg'
-    test02()
+    test01()
