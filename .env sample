@@ -5,3 +5,5 @@ SERVICE_ACCOUNT="to-infinity-and-beyond-sa"
 DISPLAY_NAME="to-infinity-and-beyond-sa"
 
 GOOGLE_APPLICATION_CREDENTIALS="/Users/svinchon/code/GCP/to-infinity-and-beyond.json"
+
+IMAGES_FOLDER="/Users/svinchon/code/nmenacho/to-infinity-and-beyond/data/images_cropped_sample"
