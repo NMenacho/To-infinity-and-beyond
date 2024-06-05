@@ -5,7 +5,8 @@ def upload_local_file_to_bucket(
     local_file_path,
     bucket_name,
     path_in_bucket,
-    name_in_bucket
+    name_in_bucket,
+    if_not_exist_only=True,
 ):
     message=  'everything went fine'
     rc = 0
@@ -13,9 +14,14 @@ def upload_local_file_to_bucket(
         client = storage.Client()
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(os.path.join(path_in_bucket, name_in_bucket))
-        blob.upload_from_filename(local_file_path)
+        if if_not_exist_only == False:
+            blob.upload_from_filename(local_file_path)
+        elif not blob.exists():
+            blob.upload_from_filename(local_file_path)
+        else:
+            message += ' (file exists)'
     except Exception as e:
-        message = 'there was an error: '+e
+        message = 'there was an error: '+ e
         rc = 1
     return rc, message
 
@@ -37,13 +43,13 @@ def download_file_from_bucket(
         rc = 1
     return rc, message
 
-def test01():
-    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped'
-    object_ID = '1237646797600326400'
-    image_path = f'{images_location}/{object_ID}.jpeg'
+def test_upload():
+    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped_sample'
+    object_ID = '1237645943973610080_44.211129087325_0.973934515533952_STAR_0.2834576'
+    image_path = f'{images_location}/{object_ID}.jpg'
     bucket_name = 'to-infinity-and-beyond'
-    path_in_bucket = os.path.join('images', 'cropped')
-    name_in_bucket = object_ID+'.jpeg'
+    path_in_bucket = os.path.join('images', 'cropped', 'sample')
+    name_in_bucket = object_ID+'.jpg'
     rc, message = upload_local_file_to_bucket(
         image_path,
         bucket_name,
@@ -53,13 +59,13 @@ def test01():
     print(rc)
     print(message)
 
-def test02():
-    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped'
-    object_ID = '1237646797600326400'
-    image_path = f'{images_location}/{object_ID}_downloaded.jpeg'
+def test_download():
+    images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped_sample'
+    object_ID = '1237645943973610080_44.211129087325_0.973934515533952_STAR_0.2834576'
+    image_path = f'{images_location}/{object_ID}_downloaded.jpg'
     bucket_name = 'to-infinity-and-beyond'
-    path_in_bucket = os.path.join('images', 'cropped')
-    name_in_bucket = object_ID+'.jpeg'
+    path_in_bucket = os.path.join('images', 'cropped', 'sample')
+    name_in_bucket = object_ID+'.jpg'
     rc, message = download_file_from_bucket(
         image_path,
         bucket_name,
@@ -70,7 +76,4 @@ def test02():
     print(message)
 
 if __name__ == '__main__':
-    images_location = '../../To-infinity-and-beyond-data/data/images_cropped'
-    object_ID = '1237646797600326400'
-    image_path = f'{images_location}/{object_ID}.jpeg'
-    test01()
+    test_upload()
