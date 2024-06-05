@@ -1,7 +1,0 @@
-# GCP
-PROJECT="to-infinity-and-beyond"
-PROJECT_ID="to-infinity-and-beyond-425409"
-SERVICE_ACCOUNT="to-infinity-and-beyond-sa"
-DISPLAY_NAME="to-infinity-and-beyond-sa"
-
-GOOGLE_APPLICATION_CREDENTIALS="/Users/svinchon/code/GCP/to-infinity-and-beyond.json"
