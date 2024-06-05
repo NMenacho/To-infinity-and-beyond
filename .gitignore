@@ -166,3 +166,4 @@ cython_debug/
 work/
 data/images/
 data/images_cropped/
+data/images_cropped_old/
