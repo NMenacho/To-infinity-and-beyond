@@ -163,7 +163,7 @@ cython_debug/
 
 # MacOS
 .DS_Store
-work/
+#work/
 data/images/
 data/images_cropped/
 #data/images_cropped_old/
