@@ -68,11 +68,37 @@ def sort_images():
         shutil.copyfile(image_path, target_images_path)
         print(f'index: {index} - image {image_name} copied')
 
-# def preprocess():
-#     pass
+def get_directory_file_count(directory_path):
+    return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
+
+def determine_images_needed():
+    images_location = os.environ['IMAGES_FOLDER']
+    sorted_images_location = os.path.join(images_location, '..', 'images_cropped_sorted')
+    stars_count = get_directory_file_count(os.path.join(sorted_images_location, 'STAR'))
+    galaxy_count = get_directory_file_count(os.path.join(sorted_images_location, 'GALAXY'))
+    augmented_star_count = stars_count * 3
+    augmented_galaxy_count = galaxy_count * 3
+    needed_stars = 0
+    needed_galaxies = 0
+    dominant_class = 'galaxy'
+    if stars_count > galaxy_count:
+        dominant_class = 'star'
+    if dominant_class == 'galaxy':
+        needed_stars = augmented_star_count
+        needed_galaxies = stars_count + needed_stars - galaxy_count
+    else:
+        needed_galaxies = augmented_galaxy_count
+        needed_stars = galaxy_count + needed_galaxies - stars_count
+    print(f'{dominant_class} class is dominant')
+    print(f'stars count: {stars_count}')
+    print(f'galaxy count: {galaxy_count}')
+    print(f'needed stars count: {needed_stars}')
+    print(f'needed galaxies count: {needed_galaxies}')
 
 if __name__ == '__main__':
     # upload_images_to_gcp()
     # upload_missing_local_images_to_gcp()
-    # create_rotated_images()
+    create_rotated_images()
     sort_images()
+    determine_images_needed()
+    # pass
