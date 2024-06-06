@@ -2,6 +2,7 @@ import os
 from space_agent.gcp_storage_utility.gcpsu_main import upload_local_file_to_bucket
 from space_agent.gcp_storage_utility.gcpsu_main import list_available_files_in_bucket
 from space_agent.data_augmentation.dataaug_main import create_three_rotations_of_image
+import shutil
 
 def upload_images_to_gcp():
     images_location = os.environ['IMAGES_FOLDER']
@@ -57,10 +58,21 @@ def create_rotated_images():
         )
         print(f'index: {index} - rc: {rc} - {message}')
 
+def sort_images():
+    images_location = os.environ['IMAGES_FOLDER']
+    image_names = [f for f in os.listdir(images_location)]
+    for index, image_name in enumerate(image_names):
+        image_path = f'{images_location}/{image_name}'
+        image_class = image_name.split('_')[3]
+        target_images_path = f'{images_location}/../images_cropped_sorted/{image_class}/{image_name}'
+        shutil.copyfile(image_path, target_images_path)
+        print(f'index: {index} - image {image_name} copied')
+
 # def preprocess():
 #     pass
 
 if __name__ == '__main__':
     # upload_images_to_gcp()
-    upload_missing_local_images_to_gcp()
+    # upload_missing_local_images_to_gcp()
     # create_rotated_images()
+    sort_images()
