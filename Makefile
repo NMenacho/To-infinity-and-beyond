@@ -29,7 +29,9 @@ list_virtual_envs:
 	pyenv virtualenvs
 
 git_quick_add_commit_push:
-	git add . ;  git commit -m 'update' ;  git push
+	git add .
+	git commit -m 'update'
+	git push
 
 git_merge_main_from_seb:
 	git checkout seb-python-boilerplate
@@ -43,8 +45,8 @@ git_merge_seb_from_main:
 	git merge seb-python-boilerplate
 	git push origin main
 
-git_open_main_branch:
+git_switch_main_branch:
 	git checkout main
 
-git open_seb_branch:
+git switch_seb_branch:
 	git checkout seb-python-boilerplate
