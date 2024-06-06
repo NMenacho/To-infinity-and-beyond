@@ -48,5 +48,5 @@ git_merge_seb_from_main:
 git_switch_main_branch:
 	git checkout main
 
-git switch_seb_branch:
+git_switch_seb_branch:
 	git checkout seb-python-boilerplate
