@@ -1,3 +1,6 @@
+
+# TODO: Add methods to be called from outside here
+
 import os
 from space_agent.gcp_storage_utility.gcpsu_main import upload_local_file_to_bucket
 from space_agent.gcp_storage_utility.gcpsu_main import list_available_files_in_bucket
