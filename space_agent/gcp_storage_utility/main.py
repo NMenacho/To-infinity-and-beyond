@@ -8,7 +8,7 @@ def upload_local_file_to_bucket(
     name_in_bucket,
     if_not_exist_only=True,
 ):
-    message=  'everything went fine'
+    message=  'RAS'
     rc = 0
     try:
         client = storage.Client()
@@ -18,8 +18,9 @@ def upload_local_file_to_bucket(
             blob.upload_from_filename(local_file_path)
         elif not blob.exists():
             blob.upload_from_filename(local_file_path)
+            message = f'file {name_in_bucket} uploaded'
         else:
-            message += ' (file exists)'
+            message = 'no upload since file {name_in_bucket} existed'
     except Exception as e:
         message = 'there was an error: '+ e
         rc = 1
@@ -42,6 +43,26 @@ def download_file_from_bucket(
         message = 'there was an error: '+e
         rc = 1
     return rc, message
+
+def list_available_files_in_bucket(
+    bucket_name,
+    #path_in_bucket
+):
+    message=  'RAS'
+    rc = 0
+    try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        #blob_list = bucket.list_blobs_with_prefix(bucket_name, path_in_bucket, delimiter=None)
+        blobs = bucket.list_blobs()
+        blob_list = []
+        for blob in blobs:
+            blob_list.append(blob.name)
+        message = f' blobs listed'
+    except Exception as e:
+        message = 'there was an error: '+ e
+        rc = 1
+    return rc, message, blob_list
 
 def test_upload():
     images_location = '/Users/svinchon/code/NMenacho/To-infinity-and-beyond/data/images_cropped_sample'
@@ -75,5 +96,18 @@ def test_download():
     print(rc)
     print(message)
 
+def test_list_blobs():
+    bucket_name = 'to-infinity-and-beyond'
+    path_in_bucket = os.path.join('images', 'cropped', 'sample')
+    rc, message, blob_list = list_available_files_in_bucket(
+        bucket_name,
+        #path_in_bucket
+    )
+    print(rc)
+    print(message)
+    print(blob_list)
+    print(len(blob_list))
+
 if __name__ == '__main__':
-    test_upload()
+    # test_upload()
+    test_list_blobs()

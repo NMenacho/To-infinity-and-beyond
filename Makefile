@@ -27,3 +27,8 @@ activate_virtual_env:
 
 list_virtual_envs:
 	pyenv virtualenvs
+
+git_add_commit_push:
+	git add .
+	git commit -m 'update'
+	git push
