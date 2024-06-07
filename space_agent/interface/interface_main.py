@@ -61,7 +61,7 @@ def create_rotated_images():
         )
         print(f'index: {index} - rc: {rc} - {message}')
 
-def sort_images():
+def copy_images_sorted():
     images_location = os.environ['IMAGES_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     for index, image_name in enumerate(image_names):
@@ -69,7 +69,7 @@ def sort_images():
         image_class = image_name.split('_')[3]
         target_images_path = f'{images_location}/../images_cropped_sorted/{image_class}/{image_name}'
         shutil.copyfile(image_path, target_images_path)
-        print(f'index: {index} - image {image_name} copied')
+        print(f'index: {index} - image {image_name} copied to {image_class}')
 
 def get_directory_file_count(directory_path):
     return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
@@ -95,8 +95,11 @@ def determine_images_needed():
     print(f'{dominant_class} class is dominant')
     print(f'stars count: {stars_count}')
     print(f'galaxy count: {galaxy_count}')
-    print(f'needed stars count: {needed_stars}')
-    print(f'needed galaxies count: {needed_galaxies}')
+    print(f'needed augmented stars count: {needed_stars}')
+    print(f'needed augmented galaxies count: {needed_galaxies}')
+    print(f'total stars count: {stars_count+needed_stars}')
+    print(f'total stars count: {galaxy_count+needed_galaxies}')
+    return stars_count, galaxy_count, needed_stars, needed_galaxies
 
 if __name__ == '__main__':
     # upload_images_to_gcp()
