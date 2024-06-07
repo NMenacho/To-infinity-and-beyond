@@ -8,7 +8,7 @@ from keras import layers
 # from keras import regularizers
 from keras import optimizers
 from keras.callbacks import EarlyStopping
-from colorama import Fore, Style
+#from colorama import Fore, Style
 from typing import Tuple
 
 def initialize_model(input_shape: tuple) -> Model:
@@ -49,7 +49,8 @@ def train_model(
         validation_split=0.3
     ) -> Tuple[Model, dict]:
 
-    print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
+    #print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
+    print("\nTraining model...")
 
     # TODO: adjust training options here
     es = EarlyStopping(
@@ -80,7 +81,8 @@ def evaluate_model(
         batch_size=64
     ) -> Tuple[Model, dict]:
 
-    print(Fore.BLUE + f"\nEvaluating model on {len(X)} rows..." + Style.RESET_ALL)
+    #print(Fore.BLUE + f"\nEvaluating model on {len(X)} rows..." + Style.RESET_ALL)
+    print(f"\nEvaluating model on {len(X)} rows...")
 
     # TODO: adjust evaluation options here
 

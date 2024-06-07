@@ -71,3 +71,17 @@ git_switch_seb_branch:
 
 run_api:
 	uvicorn space_agent.api.api_main:app --reload
+
+### DOCKER #####################################################################
+
+DOCKER_IMAGE_NAME=to-infinity-and-beyond
+ENV_FILE=.env_docker
+
+docker_build_local_image:
+	docker build --tag=${DOCKER_IMAGE_NAME}:dev .
+
+docker_run_local_image_interactive:
+	docker run -it -e PORT=8000 -p 8000:8000 ${DOCKER_IMAGE_NAME}:dev sh
+
+docker_run_local_with_env:
+	docker run -e PORT=8000 -p 8000:8000 --env-file ${ENV_FILE} ${DOCKER_IMAGE_NAME}:dev
