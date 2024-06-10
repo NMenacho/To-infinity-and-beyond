@@ -1,11 +1,23 @@
+### VARS #######################################################################
+
+#VAR_NAME=VALUE
+#$VAR_NAME
+
+
+### DIRENV #####################################################################
 update_env_vars:
 	direnv reload
 
+
+### ENV VARS ###################################################################
 show_env_vars:
 	@echo SERVICE_ACCOUNT=${SERVICE_ACCOUNT}
 	@echo DISPLAY_NAME=${DISPLAY_NAME}
 	@echo PROJECT=${PROJECT}
 	@echo PROJECT=${PROJECT_ID}
+
+
+### GCLOUD #####################################################################
 
 set_gcloud_project:
 	gcloud config set project ${GCP_PROJECT_ID}
@@ -22,11 +34,15 @@ list_service_accounts:
 list_projects:
 	gcloud projects list
 
+### VENVS ######################################################################
+
 activate_virtual_env:
 	pyenv local to-infinity-and-beyond
 
 list_virtual_envs:
 	pyenv virtualenvs
+
+### GIT ########################################################################
 
 git_quick_add_commit_push:
 	git add .
@@ -50,3 +66,8 @@ git_switch_main_branch:
 
 git_switch_seb_branch:
 	git checkout seb-python-boilerplate
+
+### API ########################################################################
+
+run_api:
+	uvicorn space_agent.api.api_main:app --reload
