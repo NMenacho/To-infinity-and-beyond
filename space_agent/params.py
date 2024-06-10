@@ -1,10 +1,9 @@
 import os
 
-path = os.getcwd()
+path = os.path.dirname(os.path.dirname(__file__))
 
-DIR_PATH = os.path.abspath(os.path.dirname(__file__))
-DATA_PATH = os.path.abspath(os.path.join(path, 'data'))
-DATA_IMAGES_CROP = os.path.abspath(os.path.join(path, 'data','images_cropped'))
-LOGS_IMAGES = os.path.abspath(os.path.join(path, 'logs'))
-IMG_FOLDER_SAMPLE = os.path.abspath(os.path.join(path, 'data','images_cropped_sample'))
-print('Directory Name: ', os.path.dirname(__file__))
+DATA_PATH = os.path.join(path, 'data')
+DATA_IMAGES_CROP = os.path.join(path, 'data','images_cropped')
+LOGS_IMAGES = os.path.join(path, 'logs')
+IMG_FOLDER_SAMPLE = os.path.join(path, 'data','images_cropped_sample')
+print('Root Directory Name: ', path)
