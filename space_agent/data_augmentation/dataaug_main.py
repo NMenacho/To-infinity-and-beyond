@@ -41,7 +41,7 @@ def create_three_rotations_of_image(
     return rc, message
 
 def test_create_three_rotations_of_image():
-    image_dir = os_environ['IMAGES_FOLDER']
+    image_dir = os_environ['IMAGE_FOLDER']
     source_image_path = f'{image_dir}/1237645943973610080_44.211129087325_0.973934515533952_STAR_0.2834576.jpg'
     target_images_path = f'{image_dir}/../images_cropped_from_augmentation'
     rc, message = create_three_rotations_of_image(source_image_path, target_images_path)

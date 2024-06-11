@@ -1,0 +1,17 @@
+FROM python:3.10.6-buster
+
+#ENV VAR=VAL
+
+COPY requirements.txt /requirements.txt
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# COPY space_agent space_agent
+# COPY models /models
+
+# RUN mkdir uploaded_images
+# RUN chmod 777 uploaded_images
+# RUN chmod 777 models
+
+# CMD uvicorn space_agent.api.api_main:app --host 0.0.0.0 --port $PORT

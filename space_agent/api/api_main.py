@@ -18,6 +18,9 @@ from space_agent.ml.preprocessor import preprocess_features
 
 print(f'starting fast/uvicorn under {os_type}')
 
+#print(f'params.MODELS_FOLDER: {params.MODELS_FOLDER}')
+#print(f'params.UPLOADED_IMAGE_FOLDER: {params.UPLOADED_IMAGE_FOLDER}')
+
 app = FastAPI()
 
 app.state.model = load_latest_model()
@@ -38,7 +41,7 @@ def predict_from_image(file: UploadFile = File(...)):
     try:
 
         contents = file.file.read()
-        image_path = f'{params.UPLOADED_IMAGES_FOLDER}/{file.filename}'
+        image_path = f'{params.UPLOADED_IMAGE_FOLDER}/{file.filename}'
         with open(image_path, 'wb') as f:
             f.write(contents)
         image_as_np_array = np.array(Image.open(image_path))
