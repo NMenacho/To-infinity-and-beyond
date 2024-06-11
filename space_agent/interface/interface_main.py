@@ -51,7 +51,7 @@ def upload_missing_local_images_to_gcp():
 
 def create_rotated_images():
 
-    images_location = os.environ['IMAGE_FOLDER']
+    images_location = os.environ['IMAGES_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     for index, image_name in enumerate(image_names):
         image_path = f'{images_location}/{image_name}'
@@ -110,6 +110,42 @@ def determine_images_needed():
     print(f'total stars count: {stars_count+needed_stars}')
     print(f'total stars count: {galaxy_count+needed_galaxies}')
     return stars_count, galaxy_count, needed_stars, needed_galaxies
+
+def generate_balanced_dataset(galaxy_dir, star_dir, galaxy_aug_dir, star_aug_dir, balanced_dir):
+    # Ensure the balanced directory exists
+    if not os.path.exists(balanced_dir):
+        os.makedirs(balanced_dir)
+    # Get the list of files in each directory
+    galaxy_files = os.listdir(galaxy_dir)
+    star_files = os.listdir(star_dir)
+    galaxy_aug_files = os.listdir(galaxy_aug_dir)
+    star_aug_files = os.listdir(star_aug_dir)
+    # Count the number of images in each directory
+    galaxy_count = len(galaxy_files)
+    star_count = len(star_files)
+    galaxy_aug_count = len(galaxy_aug_files)
+    star_aug_count = len(star_aug_files)
+    # Copy all original images to the balanced directory
+    for file in galaxy_files:
+        shutil.copy(os.path.join(galaxy_dir, file), balanced_dir)
+    for file in star_files:
+        shutil.copy(os.path.join(star_dir, file), balanced_dir)
+    if galaxy_aug_count > star_aug_count:
+        # Copy all star augmented images to the balanced directory
+        for file in star_aug_files:
+            shutil.copy(os.path.join(star_aug_dir, file), balanced_dir)
+        # Copy star_aug_count - (galaxy_count - star_count) galaxy augmented images to the balanced directory
+        additional_files = random.sample(galaxy_aug_files, star_aug_count - (galaxy_count - star_count))
+        for file in additional_files:
+            shutil.copy(os.path.join(galaxy_aug_dir, file), balanced_dir)
+    else:
+        # Copy all galaxy augmented images to the balanced directory
+        for file in galaxy_aug_files:
+            shutil.copy(os.path.join(galaxy_aug_dir, file), balanced_dir)
+        # Copy galaxy_aug_count - (star_count - galaxy_count) star augmented images to the balanced directory
+        additional_files = random.sample(star_aug_files, galaxy_aug_count - (star_count - galaxy_count))
+        for file in additional_files:
+            shutil.copy(os.path.join(star_aug_dir, file), balanced_dir)
 
 if __name__ == '__main__':
     # upload_images_to_gcp()
