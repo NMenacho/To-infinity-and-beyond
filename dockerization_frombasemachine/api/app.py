@@ -1,5 +1,6 @@
 import io
 import numpy as np
+import pandas as pd
 from PIL import Image
 import os
 
@@ -8,45 +9,74 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import File, UploadFile
 from tensorflow import keras
 import os
+
 app = FastAPI()
 
-model_path = os.path.join(
-    'api2',
-    #'to-infinity-beyond.model.01.keras'
-    'to-infinity-beyond.model.02.r2d2.keras'
-    #'to-infinity-beyond.model.03.r2d2.keras'
-)
+categorization_model_path = '/api/r2d2.h5'
+redshift_from_image_model_path = '/api/murphy.h5'
+redshift_from_params_model_paths = '/api/chewbacca.h5'
 
-model_path = '/api/r2d2.h5'
+app.state.categorization_model = keras.models.load_model(categorization_model_path)
+app.state.redshift_from_image_model = keras.models.load_model(redshift_from_image_model_path)
+#app.state.redshift_from_params_model = keras.models.load_model(redshift_from_params_model_paths)
 
-print(f' ****************** {model_path}')
-exists = os.path.exists(model_path)
-print(f' ****************** file exists: {exists}')
-
-app.state.model = keras.models.load_model(model_path)
-
-# Allowing all middleware is optional, but good practice for dev purposes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# http://127.0.0.1:8000/predict?input=value
-@app.post("/predict_from_image")
-async def put_object(request: Request, file: UploadFile = File(...)) -> dict:
-
+@app.post("/category_from_image")
+async def category_from_image(request: Request, file: UploadFile = File(...)) -> dict:
         request_object_content = await file.read()
         img = Image.open(io.BytesIO(request_object_content))
         X =  np.array([np.array(img)])
-        model = app.state.model
+        model = app.state.categorization_model
         pred = model.predict(X)[0][0]
         print(type(pred))
         print(pred)
         return { 'prediction': float(pred) }
 
+@app.post("/redshift_from_image")
+async def redshift_from_image(request: Request, file: UploadFile = File(...)) -> dict:
+        request_object_content = await file.read()
+        img = Image.open(io.BytesIO(request_object_content))
+        X =  np.array([np.array(img)])
+        model = app.state.redshift_from_image_model
+        pred = model.predict(X)[0][0]
+        print(type(pred))
+        print(pred)
+        return { 'prediction': float(pred) }
+
+@app.get("/redshift_from_params")
+async def redshift_from_params(
+    alpha: float,
+    delta: float,
+    label: str,
+    u: float,
+    g: float,
+    r: float,
+    i: float,
+    z: float
+) -> dict:
+    pass
+    # X_pred = pd.DataFrame(dict(
+    #     alpha=[alpha],
+    #     delta=[delta],
+    #     label=[label],
+    #     u=[u],
+    #     g=[g],
+    #     r=[r],
+    #     i=[i],
+    #     z=[z],
+    # ))
+    # X_processed = preprocess_features(X_pred)
+    # model = app.state.redshift_from_params_model
+    # pred = model.predict(X_processed)[0][0]
+    # return { 'prediction': float(pred) }
+
 @app.get("/")
 def root():
-    return { 'message': 'server is running' }
+    return { 'message': 'add /docs to the url to access the swagger' }
