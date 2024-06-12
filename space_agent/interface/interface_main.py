@@ -51,7 +51,7 @@ def upload_missing_local_images_to_gcp():
 
 def create_rotated_images():
 
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     for index, image_name in enumerate(image_names):
         image_path = f'{images_location}/{image_name}'
