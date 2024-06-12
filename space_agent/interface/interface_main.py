@@ -8,7 +8,7 @@ from space_agent.data_augmentation.dataaug_main import create_three_rotations_of
 import shutil
 
 def upload_images_to_gcp():
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     #client.list_blobs('bucketname', prefix='abc/myfolder
     for index, image_name in enumerate(image_names):
@@ -26,7 +26,7 @@ def upload_images_to_gcp():
         print(f'index: {index} - rc: {rc} - {message}')
 
 def upload_missing_local_images_to_gcp():
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     bucket_name = 'to-infinity-and-beyond'
     path_in_bucket = os.path.join('images', 'cropped', 'sample')
@@ -51,7 +51,7 @@ def upload_missing_local_images_to_gcp():
 
 def create_rotated_images():
 
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     for index, image_name in enumerate(image_names):
         image_path = f'{images_location}/{image_name}'
@@ -68,7 +68,7 @@ def create_rotated_images():
         print(f'index: {index} - rc: {rc} - {message}')
 
 def copy_images_sorted():
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     image_names = [f for f in os.listdir(images_location)]
     for index, image_name in enumerate(image_names):
         try:
@@ -85,7 +85,7 @@ def get_directory_file_count(directory_path):
     return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
 
 def determine_images_needed():
-    images_location = os.environ['IMAGES_FOLDER']
+    images_location = os.environ['IMAGE_FOLDER']
     sorted_images_location = os.path.join(images_location, '..', 'images_cropped_sorted')
     stars_count = get_directory_file_count(os.path.join(sorted_images_location, 'STAR'))
     galaxy_count = get_directory_file_count(os.path.join(sorted_images_location, 'GALAXY'))
