@@ -1,4 +1,4 @@
-IMAGE_NAME=to-inifinity-and-beyond-image-01
+IMAGE_NAME=to-inifinity-and-beyond-image-02
 
 # docker_build_api_machine_amd64_dev:
 # 	docker build \

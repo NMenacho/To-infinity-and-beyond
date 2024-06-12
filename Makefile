@@ -69,6 +69,9 @@ git_switch_seb_branch:
 run_api:
 	uvicorn space_agent.api.api_main:app --reload
 
+run_api_light:
+	uvicorn space_agent.api.app:app --reload
+
 ### DOCKER #####################################################################
 
 # #DOCKER_BASE_IMAGE_NAME=pyhton3.10.6-packages
